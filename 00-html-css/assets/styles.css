@@ -9,7 +9,7 @@
     --primary-dark: #0a3d66;
     --primary-hover: #0d5ba8;
     --primary-light: #09f;
-    --background: #06182a;
+    --background: #101922;
     --text-primary: #ffffff;
     --text-secondary: #cbd5e1;
     --text-muted: #94a3b8;
@@ -57,7 +57,7 @@
 }
 .logo__icon {
   display: block;
-  fill: currentColor;
+  fill: var(--primary-light);
 }
 .site-title {
   font-size: 1.25rem;
@@ -218,60 +218,34 @@ h1 {
   margin-bottom: 2rem;
 }
 
-.filter-select {
-  display: inline-block;
-}
-
-.filter-select-flex {
-  display: inline-flex;
-  align-items: center;
-  background: var(--input-bg);
-  border-radius: 0.5rem;
-  padding: 0.75rem 1rem;
-  width: fit-content;
-}
-
 .filter-select select {
   background: transparent;
   border: none;
-  color: var(--text-primary);
+  color: var(--text-secondary);
   font-size: 0.9rem;
   font-weight: 500;
   appearance: none;
   box-sizing: border-box;
-  width: fit-content;
-  min-width: auto;
-  padding: 0;
   margin-right: 0.5rem;
-  max-width: fit-content;
-}
-
-.filter-select select option {
-  background: var(--input-bg);
-  color: var(--text-primary);
 }
 
 .filter-select select:focus {
   outline: none;
 }
 
-.filter-select-flex:focus-within {
+.filter-select-box {
+  display: flex;
+  background: var(--input-bg);
+  border-radius: 0.5rem;
+  padding: 0.5rem 1rem;
+}
+
+.filter-select-box:focus-within {
   outline: 2px solid var(--primary-light);
-  outline-offset: 2px;
 }
 
 .select-arrow {
-  display: flex;
-  align-items: center;
   color: var(--text-primary);
-  pointer-events: none;
-  flex-shrink: 0;
-}
-
-.select-arrow svg {
-  display: block;
-  width: 1em;
-  height: 1em;
 }
   
 /* Jobs List */
@@ -298,15 +272,13 @@ h1 {
 
 .job-listing {
   width: 100%;
+  gap: 1rem;
   border: 1.5px solid var(--border);
   border-radius: 0;
   display: flex;
   align-items: flex-start;
   justify-content: space-between;
-
-  padding: 26px 24px 21px 24px;
-  margin-bottom: 0;
-  position: relative;
+  padding: 2rem;
   box-sizing: border-box;
 }
 .job-listing:not(:first-child) {
@@ -316,7 +288,6 @@ h1 {
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  max-width: calc(100% - 100px);
 }
 
 .job-title {
@@ -338,7 +309,6 @@ h1 {
 }
 
 .apply-btn {
-  position: relative;
   background: var(--primary-light);
   color: var(--text-primary);
   font-size: 1rem;
