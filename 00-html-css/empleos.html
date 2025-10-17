@@ -4,11 +4,11 @@
         <title>DevJobs - Buscar empleos</title>
         <meta charset="UTF-8">
         <meta name="description" content="Encuentra las mejores ofertas de trabajo para desarrolladores en DevJobs.">
-        <link rel="stylesheet" href="./assets/styles.css">
+        <link rel="stylesheet" href="./styles.css">
     </head>
     <body>
         <header class="site-header">
-            <div class="site-logo">
+            <div class="backend-logo">
                 <svg 
                     class="logo__icon" 
                     width="24" 
@@ -37,74 +37,75 @@
                 </button>
             </div>
         </header>
-        <main>
-            <h1>Encuentra tu próximo trabajo</h1>
-            <p class="subtitle">Explora miles de oportunidades en el sector tecnológico.</p>
-            <form class="search-bar" autocomplete="off">
-                <svg 
-                    xmlns="http://www.w3.org/2000/svg" 
-                    width="24" 
-                    height="24" 
-                    fill="none" 
-                    stroke="currentColor" 
-                    stroke-width="1" 
-                    stroke-linecap="round" 
-                    stroke-linejoin="round" 
-                    class="icon icon-tabler icons-tabler-outline icon-tabler-search">
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                    <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                    <path d="M21 21l-6 -6" />
-                </svg>
-                <input 
-                    type="text" 
-                    class="search-input" 
-                    placeholder="Buscar trabajos, empresas o habilidades"
-                />         
-            </form>
+        <main class="main-backend">
+            <section class="hero">
+                <h1>Encuentra tu próximo trabajo</h1>
+                <p class="subtitle">Explora miles de oportunidades en el sector tecnológico.</p>
+                <form class="search-bar" autocomplete="off">
+                    <svg 
+                        xmlns="http://www.w3.org/2000/svg" 
+                        width="24" 
+                        height="24" 
+                        fill="none" 
+                        stroke="currentColor" 
+                        stroke-width="1" 
+                        stroke-linecap="round" 
+                        stroke-linejoin="round" 
+                        class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                        <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                        <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                        <path d="M21 21l-6 -6" />
+                    </svg>
+                    <input 
+                        type="text" 
+                        class="search-input" 
+                        placeholder="Buscar trabajos, empresas o habilidades"
+                    />         
+                </form>
 
-            <div class="filters-row">
-                <div class="filter-select">
-                    <div class="filter-select-box">
-                        <select>
-                            <option value="">Tecnología</option>
-                        </select>
-                        <span class="select-arrow">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
-                        </span>
-                    </div>
-                </div>
-                <div class="filter-select">
-                    <div class="filter-select-box">
-                        <select>
-                            <option value="">Ubicación</option>
-                        </select>
-                        <span class="select-arrow">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
-                        </span>
-                    </div>
-                </div>
-                <div class="filter-select">
-                    <div class="filter-select-box">
-                        <select>
-                            <option value="">Tipo de contrato</option>
-                        </select>
-                        <span class="select-arrow">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
-                        </span>
-                    </div>
+                <div class="filters-row">
+                    <div class="filter-select">
+                        <div class="filter-select-box">
+                            <select>
+                                <option value="">Tecnología</option>
+                            </select>
+                            <span class="select-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                            </span>
+                        </div>
                     </div>
                     <div class="filter-select">
-                    <div class="filter-select-box">
-                        <select>
-                            <option value="">Nivel de experiencia</option>
-                        </select>
-                        <span class="select-arrow">
-                            <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
-                        </span>
-                   </div>
+                        <div class="filter-select-box">
+                            <select>
+                                <option value="">Ubicación</option>
+                            </select>
+                            <span class="select-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                            </span>
+                        </div>
+                    </div>
+                    <div class="filter-select">
+                        <div class="filter-select-box">
+                            <select>
+                                <option value="">Tipo de contrato</option>
+                            </select>
+                            <span class="select-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                            </span>
+                        </div>
+                        </div>
+                        <div class="filter-select">
+                        <div class="filter-select-box">
+                            <select>
+                                <option value="">Nivel de experiencia</option>
+                            </select>
+                            <span class="select-arrow">
+                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                            </span>
+                    </div>
+                    </div>
                 </div>
-            </div>
-            
+            </section>
             <h2 class="results-title">Resultados de búsqueda</h2>
 
             <section class="jobs-list">
