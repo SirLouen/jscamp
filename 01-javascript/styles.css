@@ -484,9 +484,7 @@ h1 + p {
   option {
     background: var(--input-bg);
     color: var(--text-secondary);   
-  }
-
-  
+  }  
 }
 
 ::picker(select) {
@@ -525,15 +523,8 @@ h1 + p {
 
 .jobs-list {
   margin-bottom: 3rem;
-}
-
-.jobs-list .job-listing:first-child {
-  border-top-left-radius: 0.5rem;
-  border-top-right-radius: 0.5rem;
-}
-.jobs-list .job-listing:last-child {
-  border-bottom-left-radius: 0.5rem;
-  border-bottom-right-radius: 0.5rem;
+  border: 1.5px solid var(--border);
+  border-radius: 0.5rem;
 }
 
 .job-listing {
@@ -561,6 +552,18 @@ h1 + p {
   font-weight: 600;
   margin-bottom: 0.375rem;
   color: var(--text-primary);
+
+  a {
+    text-decoration: none;
+    color: inherit;
+  }
+}
+
+.jobs-empty {
+  text-align: center;
+  font-size: 1rem;
+  color: var(--text-muted);
+  padding: 2rem;
 }
 
 .company-location {
@@ -623,6 +626,100 @@ h1 + p {
   background: var(--primary-dark);
   color: var(--text-primary);
   cursor: pointer;
+}
+
+/* Breadcrumbs */
+.breadcrumbs {
+  display: flex;
+  flex-direction: row;
+  font-size: 0.85rem;
+  color: var(--text-muted);
+  margin: 2rem 0 1rem 5rem;
+  margin-top: 2rem;
+
+  a {
+    color: var(--text-muted);
+    text-decoration: none;
+  }
+
+  .breadcrumb-active {
+    color: var(--text-secondary);
+    font-weight: 600;
+  }
+
+  .breadcrumb-separator {
+    margin: 0 0.5rem;
+  }
+}
+
+.job-detail {
+  display: flex;
+  flex-direction: column;
+
+  h1 {
+    font-size: 2rem;
+    font-weight: 600;
+    margin-bottom: 0.5rem;
+    color: var(--text-primary);
+    text-align: left;
+  }
+  .company-location {
+    font-size: 1.1rem;
+   
+  }
+
+  .job-header {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    margin-bottom: 2rem;
+  }
+
+  hr {
+    border: none;
+    border-top: 1.5px solid var(--border);
+    margin: 2rem 0;
+  }
+
+  button {
+    align-self: flex-end;
+  }
+}
+
+.job-description {
+  font-size: 1rem;
+  color: var(--text-secondary);
+
+  p {
+    margin-bottom: 2rem;
+  }
+
+  h2 {
+    margin-bottom: 1rem;
+  }
+
+  ul {
+    list-style: none;
+    padding-left: 0;
+    margin-bottom: 1rem;
+  }
+
+  li {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    line-height: 2rem;
+  }
+  li::before {
+    content: '';
+    flex-shrink: 0;
+    width: 1.4rem;
+    height: 1.4rem;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24' fill='none' stroke='%2309f' stroke-width='2' stroke-linecap='round' stroke-linejoin='round'%3E%3Cpath stroke='none' d='M0 0h24v24H0z' fill='none'/%3E%3Cpath d='M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0' /%3E%3Cpath d='M9 12l2 2l4 -4' /%3E%3C/svg%3E");
+    background-size: contain;
+    background-repeat: no-repeat;
+  }
+
 }
 
 /* Footer */

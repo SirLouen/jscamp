@@ -10,6 +10,8 @@ function filterJobs() {
     const selectedExperience = filterExperience.value;
 
     const jobListings = document.querySelectorAll('.job-listing');
+    const jobEmptyState = document.querySelector('.jobs-empty');
+    let visibleCount = 0;
 
     jobListings.forEach(function(listing) {
         const matchesJob = !selectedJob || listing.dataset.job === selectedJob;
@@ -19,7 +21,17 @@ function filterJobs() {
 
         const isVisible = matchesJob && matchesLocation && matchesContract && matchesExperience;
         listing.style.display = isVisible ? '' : 'none';
+
+        if (isVisible) {
+            visibleCount += 1;
+        }
     });
+
+    if (!visibleCount) {
+        jobEmptyState?.removeAttribute('hidden');
+    } else {
+        jobEmptyState?.setAttribute('hidden', '');
+    }
 }
 
 filterJob.addEventListener('change', filterJobs);

@@ -5,7 +5,7 @@
         <meta charset="UTF-8">
         <meta name="description" content="Encuentra las mejores ofertas de trabajo para desarrolladores en DevJobs.">
         <link rel="stylesheet" href="./styles.css" />
-        <script type="module" src="./script.js"></script>
+        <script type="module" src="./filters.js"></script>
     </head>
     <body>
         <header class="site-header">
@@ -127,7 +127,9 @@
             <section class="jobs-list">
                 <article class="job-listing" data-job="backend" data-location="remoto" data-contract="part-time" data-experience="junior">
                 <div class="job-info">
-                    <div class="job-title">Ingeniero de Software</div>
+                    <div class="job-title">
+                        <a href="detalle.html">Ingeniero de Software</a>
+                    </div>
                     <div class="company-location">Tech Solutions Inc. | Remoto</div>
                     <div class="job-desc">Buscamos un ingeniero de software con experiencia en desarrollo web y conocimientos en JavaScript, React y Node.js. El candidato ideal debe ser capaz de trabajar en equipo y tener buenas habilidades de comunicación.</div>
                 </div>
@@ -160,6 +162,10 @@
                 </div>
                 <button class="apply-btn">Aplicar</button>
                 </article>
+
+                <p class="jobs-empty" hidden>
+                    No hay trabajos disponibles con estas condiciones
+                </p>
             </section>
             <nav class="pagination" aria-label="Pagination">
                 <button class="pagination-arrow" disabled aria-label="Previous page">&lt;</button>
