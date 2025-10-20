@@ -166,6 +166,11 @@ h1 + p {
     color: var(--primary);
     outline: none;
   }
+
+  .active {
+    font-weight: 700;
+    color: var(--primary-light);
+  }
 }
 
 /* Secondary nav */
@@ -487,10 +492,6 @@ h1 + p {
   }  
 }
 
-::picker(select) {
-  border: none;
-}
-
 .filter-select select:focus {
   outline: none;
 }
@@ -590,6 +591,11 @@ h1 + p {
 
 .apply-btn:hover {
   background: var(--primary-hover);
+}
+
+.apply-btn.is-applied {
+  background: var(--primary-dark);
+  cursor: default;
 }
 
 /* Pagination */
