@@ -1,13 +1,31 @@
-document.addEventListener('DOMContentLoaded', function() {
-    const filterJob = document.getElementById('filter-job')
-    const filterLocation = document.getElementById('filter-location')
-    const filterContract = document.getElementById('filter-contract')
-    const filterExperience = document.getElementById('filter-experience')
+const filterJob = document.getElementById('filter-job')
+const filterLocation = document.getElementById('filter-location')
+const filterContract = document.getElementById('filter-contract')
+const filterExperience = document.getElementById('filter-experience')
 
-    filterJob.addEventListener('change', function() {
-        console.log(filterJob.value)
-    })
-})
+function filterJobs() {
+    const selectedJob = filterJob.value;
+    const selectedLocation = filterLocation.value;
+    const selectedContract = filterContract.value;
+    const selectedExperience = filterExperience.value;
+
+    const jobListings = document.querySelectorAll('.job-listing');
+
+    jobListings.forEach(function(listing) {
+        const matchesJob = !selectedJob || listing.dataset.job === selectedJob;
+        const matchesLocation = !selectedLocation || listing.dataset.location === selectedLocation;
+        const matchesContract = !selectedContract || listing.dataset.contract === selectedContract;
+        const matchesExperience = !selectedExperience || listing.dataset.experience === selectedExperience;
+
+        const isVisible = matchesJob && matchesLocation && matchesContract && matchesExperience;
+        listing.style.display = isVisible ? '' : 'none';
+    });
+}
+
+filterJob.addEventListener('change', filterJobs);
+filterLocation.addEventListener('change', filterJobs);
+filterContract.addEventListener('change', filterJobs);
+filterExperience.addEventListener('change', filterJobs);
 
 const filterSelect = document.querySelectorAll('.filter-select');
 
