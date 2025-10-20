@@ -480,6 +480,39 @@ h1 + p {
   box-sizing: border-box;
   margin-right: 0.5rem;
   cursor: pointer;
+
+  option {
+    background: var(--input-bg);
+    color: var(--text-secondary);
+    border: 2px solid #dddddd;
+    display: flex;
+    gap: 20px;
+    justify-content: flex-start;
+    border: 5px solid #09f;
+    padding: 10px;
+    transition: 0.4s;
+
+    &:hover,
+    &:focus {
+      background: var(--primary-light);
+    }
+
+    &:first-of-type {
+      border-radius: 8px 8px 0 0;
+    }
+    &:last-of-type {
+      border-radius: 0 0 8px 8px;
+    }
+    &:not(option:last-of-type) {
+      border-bottom: none;
+    }
+  }
+
+  
+}
+
+::picker(select) {
+  border: none;
 }
 
 .filter-select select:focus {
