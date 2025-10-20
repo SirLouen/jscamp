@@ -464,6 +464,10 @@ h1 + p {
   flex-wrap: wrap;
   gap: 1rem;
   margin-bottom: 2rem;
+
+  label {
+    cursor: pointer;
+  }
 }
 
 .filter-select select {
@@ -475,6 +479,7 @@ h1 + p {
   appearance: none;
   box-sizing: border-box;
   margin-right: 0.5rem;
+  cursor: pointer;
 }
 
 .filter-select select:focus {
@@ -486,14 +491,16 @@ h1 + p {
   background: var(--input-bg);
   border-radius: 0.5rem;
   padding: 0.5rem 1rem;
+  cursor: pointer;
 }
 
 .filter-select-box:focus-within {
   outline: 2px solid var(--primary-light);
 }
 
-.select-arrow {
-  color: var(--text-primary);
+.select-arrow,
+.select-arrow svg {
+    pointer-events: none;
 }
 
 /* Jobs List */
