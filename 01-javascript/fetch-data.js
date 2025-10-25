@@ -1,12 +1,12 @@
-const container = document.querySelector('.jobs-list')
-const filtersRow = document.querySelector('.filters-row')
-const emptyState = container?.querySelector('.jobs-empty')
-const paginationNav = document.querySelector('.pagination')
-const pagesContainer = paginationNav?.querySelector('.pagination-pages')
-const prevButton = paginationNav?.querySelector('#prev-page')
-const nextButton = paginationNav?.querySelector('#next-page')
+const container = document.querySelector('.jobs-list');
+const filtersRow = document.querySelector('.filters-row');
+const emptyState = container?.querySelector('.jobs-empty');
+const paginationNav = document.querySelector('.pagination');
+const pagesContainer = paginationNav?.querySelector('.pagination-pages');
+const prevButton = paginationNav?.querySelector('#prev-page');
+const nextButton = paginationNav?.querySelector('#next-page');
 
-const RESULTS_PER_PAGE = 3
+const RESULTS_PER_PAGE = 3;
 
 const paginationState = {
   items: [],
@@ -17,9 +17,9 @@ const paginationState = {
   },
   currentPage: 1,
   totalPages: 0,
-}
+};
 
-window.jobsPagination = paginationState
+window.jobsPagination = paginationState;
 
 const renderFilter = (elements, label, filterId) => {
   const select = filtersRow?.querySelector(filterId);
@@ -37,8 +37,8 @@ const renderFilter = (elements, label, filterId) => {
       option.value = value;
       option.textContent = optionLabel;
       select.appendChild(option);
-    })
-}
+  });
+};
 
 const renderJobArticle = (job) => {
   const article = document.createElement('article');
@@ -63,9 +63,9 @@ const renderJobArticle = (job) => {
           </small>
           <p class="job-desc">${job.descripcion}</p>
         </div>
-        <button class="apply-btn">Aplicar</button>`
+        <button class="apply-btn">Aplicar</button>`;
 
-  container?.insertBefore(article, emptyState)
+  container?.insertBefore(article, emptyState);
 
   return {
     node: article,
@@ -73,28 +73,28 @@ const renderJobArticle = (job) => {
     experience: article.dataset.experience,
     technologies,
   };
-}
+};
 
 const renderPageButtons = (totalPages, currentPage) => {
   if (!pagesContainer) {
-    return
+    return;
   }
 
-  pagesContainer.innerHTML = ''
+  pagesContainer.innerHTML = '';
 
   for (let page = 1; page <= totalPages; page += 1) {
-    const button = document.createElement('button')
-    button.className = 'pagination-page'
-    button.textContent = String(page)
-    button.dataset.page = String(page)
+    const button = document.createElement('button');
+    button.className = 'pagination-page';
+    button.textContent = String(page);
+    button.dataset.page = String(page);
 
     if (page === currentPage) {
-      button.classList.add('active')
+      button.classList.add('active');
     }
 
-    pagesContainer.appendChild(button)
+    pagesContainer.appendChild(button);
   }
-}
+};
 
 const togglePaginationNav = (totalPages, currentPage) => {
 
@@ -115,20 +115,20 @@ const togglePaginationNav = (totalPages, currentPage) => {
       nextButton.disabled = currentPage >= totalPages;
     }
   }
-}
+};
 
 const updateJobsView = () => {
   const { items, filters } = paginationState;
 
   const filteredItems = items.filter((item) => {
-    const matchesLocation = !filters.location || item.location === filters.location
-    const matchesExperience = !filters.experience || item.experience === filters.experience
-    const matchesTechnology = !filters.technology || item.technologies.includes(filters.technology)
+    const matchesLocation = !filters.location || item.location === filters.location;
+    const matchesExperience = !filters.experience || item.experience === filters.experience;
+    const matchesTechnology = !filters.technology || item.technologies.includes(filters.technology);
 
-    return matchesLocation && matchesExperience && matchesTechnology
-  })
+    return matchesLocation && matchesExperience && matchesTechnology;
+  });
 
-  paginationState.totalPages = filteredItems.length ? Math.ceil(filteredItems.length / RESULTS_PER_PAGE) : 0
+  paginationState.totalPages = filteredItems.length ? Math.ceil(filteredItems.length / RESULTS_PER_PAGE) : 0;
 
   if (paginationState.totalPages && paginationState.currentPage > paginationState.totalPages) {
     paginationState.currentPage = paginationState.totalPages;
@@ -149,60 +149,60 @@ const updateJobsView = () => {
     return;
   }
 
-  const start = (paginationState.currentPage - 1) * RESULTS_PER_PAGE
-  const end = start + RESULTS_PER_PAGE
+  const start = (paginationState.currentPage - 1) * RESULTS_PER_PAGE;
+  const end = start + RESULTS_PER_PAGE;
 
   filteredItems.slice(start, end).forEach(({ node }) => {
-    node.style.display = ''
-  })
+    node.style.display = '';
+  });
 
-  renderPageButtons(paginationState.totalPages, paginationState.currentPage)
-  togglePaginationNav(paginationState.totalPages, paginationState.currentPage)
-}
+  renderPageButtons(paginationState.totalPages, paginationState.currentPage);
+  togglePaginationNav(paginationState.totalPages, paginationState.currentPage);
+};
 
-window.updateJobsView = updateJobsView
+window.updateJobsView = updateJobsView;
 
 pagesContainer?.addEventListener('click', (event) => {
-  const target = event.target
+  const target = event.target;
 
   if (!(target instanceof HTMLElement)) {
-    return
+    return;
   }
 
-  const button = target.closest('.pagination-page')
+  const button = target.closest('.pagination-page');
 
   if (!button) {
-    return
+    return;
   }
 
-  const page = Number(button.dataset.page)
+  const page = Number(button.dataset.page);
 
   if (!page || page === paginationState.currentPage) {
-    return
+    return;
   }
 
-  paginationState.currentPage = page
-  updateJobsView()
-})
+  paginationState.currentPage = page;
+  updateJobsView();
+});
 
 prevButton?.addEventListener('click', () => {
 
   if (paginationState.currentPage <= 1) {
-    return
+    return;
   }
 
-  paginationState.currentPage -= 1
-  updateJobsView()
-})
+  paginationState.currentPage -= 1;
+  updateJobsView();
+});
 
 nextButton?.addEventListener('click', () => {
   if (paginationState.currentPage >= paginationState.totalPages) {
-    return
+    return;
   }
 
-  paginationState.currentPage += 1
-  updateJobsView()
-})
+  paginationState.currentPage += 1;
+  updateJobsView();
+});
 
 fetch('./data.json')
   .then((response) => response.json())
@@ -210,11 +210,11 @@ fetch('./data.json')
     const locations = new Map();
     const experiences = new Map();
     const technologies = new Map();
-    const jobItems = []
+    const jobItems = [];
 
     jobs.forEach((job) => {
-      const jobItem = renderJobArticle(job)
-      jobItems.push(jobItem)
+      const jobItem = renderJobArticle(job);
+      jobItems.push(jobItem);
 
       if (!locations.has(job.data.modalidad)) {
         locations.set(job.data.modalidad, job.ubicacion);
@@ -228,14 +228,14 @@ fetch('./data.json')
         if (!technologies.has(technology)) {
           technologies.set(technology, technology);
         }
-      })
-    })
+      });
+    });
 
-    paginationState.items = jobItems
+    paginationState.items = jobItems;
 
-    renderFilter(Array.from(locations.entries()),"Ubicación", "#filter-location" )
-    renderFilter(Array.from(experiences.entries()),"Nivel de experiencia", "#filter-experience" )
-    renderFilter(Array.from(technologies.entries()),"Tecnología", "#filter-technology" )
+    renderFilter(Array.from(locations.entries()), 'Ubicación', '#filter-location');
+    renderFilter(Array.from(experiences.entries()), 'Nivel de experiencia', '#filter-experience');
+    renderFilter(Array.from(technologies.entries()), 'Tecnología', '#filter-technology');
 
-    updateJobsView()
-  })
+    updateJobsView();
+  });
