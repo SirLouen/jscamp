@@ -1,7 +1,25 @@
 const container = document.querySelector('.jobs-list')
 const filtersRow = document.querySelector('.filters-row')
+const emptyState = container?.querySelector('.jobs-empty')
+const paginationNav = document.querySelector('.pagination')
+const pagesContainer = paginationNav?.querySelector('.pagination-pages')
+const prevButton = paginationNav?.querySelector('#prev-page')
+const nextButton = paginationNav?.querySelector('#next-page')
 
 const RESULTS_PER_PAGE = 3
+
+const paginationState = {
+  items: [],
+  filters: {
+    location: '',
+    experience: '',
+    technology: '',
+  },
+  currentPage: 1,
+  totalPages: 0,
+}
+
+window.jobsPagination = paginationState
 
 const renderFilter = (elements, label, filterId) => {
   const select = filtersRow?.querySelector(filterId);
@@ -14,13 +32,13 @@ const renderFilter = (elements, label, filterId) => {
 
   elements
     .sort()
-    .forEach(([value, label]) => {
+    .forEach(([value, optionLabel]) => {
       const option = document.createElement('option');
       option.value = value;
-      option.textContent = label;
+      option.textContent = optionLabel;
       select.appendChild(option);
-    });
-};
+    })
+}
 
 const renderJobArticle = (job) => {
   const article = document.createElement('article');
@@ -45,24 +63,158 @@ const renderJobArticle = (job) => {
           </small>
           <p class="job-desc">${job.descripcion}</p>
         </div>
-        <button class="apply-btn">Aplicar</button>`;
+        <button class="apply-btn">Aplicar</button>`
 
-  container.appendChild(article);
+  container?.insertBefore(article, emptyState)
 
-  return technologies;
-};
+  return {
+    node: article,
+    location: article.dataset.location,
+    experience: article.dataset.experience,
+    technologies,
+  };
+}
 
-fetch("./data.json") /* fetch es asíncrono */
-  .then((response) => {
-    return response.json();
+const renderPageButtons = (totalPages, currentPage) => {
+  if (!pagesContainer) {
+    return
+  }
+
+  pagesContainer.innerHTML = ''
+
+  for (let page = 1; page <= totalPages; page += 1) {
+    const button = document.createElement('button')
+    button.className = 'pagination-page'
+    button.textContent = String(page)
+    button.dataset.page = String(page)
+
+    if (page === currentPage) {
+      button.classList.add('active')
+    }
+
+    pagesContainer.appendChild(button)
+  }
+}
+
+const togglePaginationNav = (totalPages, currentPage) => {
+
+  if (prevButton) {
+    if (!totalPages) {
+      prevButton.setAttribute('hidden', '');
+    } else {
+      prevButton.removeAttribute('hidden');
+      prevButton.disabled = currentPage <= 1;
+    }
+  }
+
+  if (nextButton) {
+    if (!totalPages) {
+      nextButton.setAttribute('hidden', '');
+    } else {
+      nextButton.removeAttribute('hidden');
+      nextButton.disabled = currentPage >= totalPages;
+    }
+  }
+}
+
+const updateJobsView = () => {
+  const { items, filters } = paginationState;
+
+  const filteredItems = items.filter((item) => {
+    const matchesLocation = !filters.location || item.location === filters.location
+    const matchesExperience = !filters.experience || item.experience === filters.experience
+    const matchesTechnology = !filters.technology || item.technologies.includes(filters.technology)
+
+    return matchesLocation && matchesExperience && matchesTechnology
   })
+
+  paginationState.totalPages = filteredItems.length ? Math.ceil(filteredItems.length / RESULTS_PER_PAGE) : 0
+
+  if (paginationState.totalPages && paginationState.currentPage > paginationState.totalPages) {
+    paginationState.currentPage = paginationState.totalPages;
+  }
+
+  if (!paginationState.totalPages) {
+    paginationState.currentPage = 1;
+  }
+
+  items.forEach(({ node }) => {
+    node.style.display = 'none';
+  });
+
+  if (!filteredItems.length) {
+    emptyState?.removeAttribute('hidden');
+    togglePaginationNav(0, 1);
+    pagesContainer && (pagesContainer.innerHTML = '');
+    return;
+  }
+
+  const start = (paginationState.currentPage - 1) * RESULTS_PER_PAGE
+  const end = start + RESULTS_PER_PAGE
+
+  filteredItems.slice(start, end).forEach(({ node }) => {
+    node.style.display = ''
+  })
+
+  renderPageButtons(paginationState.totalPages, paginationState.currentPage)
+  togglePaginationNav(paginationState.totalPages, paginationState.currentPage)
+}
+
+window.updateJobsView = updateJobsView
+
+pagesContainer?.addEventListener('click', (event) => {
+  const target = event.target
+
+  if (!(target instanceof HTMLElement)) {
+    return
+  }
+
+  const button = target.closest('.pagination-page')
+
+  if (!button) {
+    return
+  }
+
+  const page = Number(button.dataset.page)
+
+  if (!page || page === paginationState.currentPage) {
+    return
+  }
+
+  paginationState.currentPage = page
+  updateJobsView()
+})
+
+prevButton?.addEventListener('click', () => {
+
+  if (paginationState.currentPage <= 1) {
+    return
+  }
+
+  paginationState.currentPage -= 1
+  updateJobsView()
+})
+
+nextButton?.addEventListener('click', () => {
+  if (paginationState.currentPage >= paginationState.totalPages) {
+    return
+  }
+
+  paginationState.currentPage += 1
+  updateJobsView()
+})
+
+fetch('./data.json')
+  .then((response) => response.json())
   .then((jobs) => {
     const locations = new Map();
     const experiences = new Map();
     const technologies = new Map();
+    const jobItems = []
 
-    jobs.forEach(job => {
-      const jobTechnologies = renderJobArticle(job);
+    jobs.forEach((job) => {
+      const jobItem = renderJobArticle(job)
+      jobItems.push(jobItem)
 
       if (!locations.has(job.data.modalidad)) {
         locations.set(job.data.modalidad, job.ubicacion);
@@ -72,14 +224,18 @@ fetch("./data.json") /* fetch es asíncrono */
         experiences.set(job.data.nivel, job.data.nivel);
       }
 
-      jobTechnologies.forEach((technology) => {
+      jobItem.technologies.forEach((technology) => {
         if (!technologies.has(technology)) {
           technologies.set(technology, technology);
         }
-      });
-    });
+      })
+    })
+
+    paginationState.items = jobItems
 
     renderFilter(Array.from(locations.entries()),"Ubicación", "#filter-location" )
     renderFilter(Array.from(experiences.entries()),"Nivel de experiencia", "#filter-experience" )
     renderFilter(Array.from(technologies.entries()),"Tecnología", "#filter-technology" )
-  });
+
+    updateJobsView()
+  })

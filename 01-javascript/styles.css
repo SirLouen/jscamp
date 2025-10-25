@@ -610,6 +610,11 @@ h1 + p {
   gap: 1rem;
 }
 
+.pagination-pages {
+  display: flex;
+  gap: 0.5rem;
+}
+
 .pagination-arrow,
 .pagination-page {
   background: transparent;
