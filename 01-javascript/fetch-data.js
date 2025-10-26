@@ -14,6 +14,7 @@ const paginationState = {
     location: '',
     experience: '',
     technology: '',
+    search: '',
   },
   currentPage: 1,
   totalPages: 0,
@@ -46,6 +47,8 @@ const renderJobArticle = (job) => {
 
   const rawTechnologies = job.data.technology;
   const technologies = Array.isArray(rawTechnologies) ? rawTechnologies : [rawTechnologies];
+  const title = job.titulo;
+  const searchTitle = title.toLowerCase();
   article.dataset.technology = technologies.join('|');
   article.dataset.modalidad = job.data.modalidad;
   article.dataset.nivel = job.data.nivel;
@@ -55,7 +58,7 @@ const renderJobArticle = (job) => {
   article.innerHTML = `<div class="job-info">
           <h3 class="job-title">
             <a href="detalle.html">
-              ${job.titulo}
+              ${title}
             </a>
           </h3>
           <small class="company-location">
@@ -72,10 +75,12 @@ const renderJobArticle = (job) => {
     location: article.dataset.location,
     experience: article.dataset.experience,
     technologies,
+    title,
+    searchTitle
   };
 };
 
-const renderPageButtons = (totalPages, currentPage) => {
+const renderPaginationButtons = (totalPages, currentPage) => {
   if (!pagesContainer) {
     return;
   }
@@ -96,8 +101,7 @@ const renderPageButtons = (totalPages, currentPage) => {
   }
 };
 
-const togglePaginationNav = (totalPages, currentPage) => {
-
+const renderPaginationNav = (totalPages, currentPage) => {
   if (prevButton) {
     if (!totalPages) {
       prevButton.setAttribute('hidden', '');
@@ -119,13 +123,15 @@ const togglePaginationNav = (totalPages, currentPage) => {
 
 const updateJobsView = () => {
   const { items, filters } = paginationState;
+  const searchFilter = filters.search || '';
 
   const filteredItems = items.filter((item) => {
     const matchesLocation = !filters.location || item.location === filters.location;
     const matchesExperience = !filters.experience || item.experience === filters.experience;
     const matchesTechnology = !filters.technology || item.technologies.includes(filters.technology);
+    const matchesSearch = !searchFilter || item.searchTitle.includes(searchFilter);
 
-    return matchesLocation && matchesExperience && matchesTechnology;
+    return matchesLocation && matchesExperience && matchesTechnology && matchesSearch;
   });
 
   paginationState.totalPages = filteredItems.length ? Math.ceil(filteredItems.length / RESULTS_PER_PAGE) : 0;
@@ -144,10 +150,11 @@ const updateJobsView = () => {
 
   if (!filteredItems.length) {
     emptyState?.removeAttribute('hidden');
-    togglePaginationNav(0, 1);
+    renderPaginationNav(0, 1);
     pagesContainer && (pagesContainer.innerHTML = '');
     return;
   }
+
 
   const start = (paginationState.currentPage - 1) * RESULTS_PER_PAGE;
   const end = start + RESULTS_PER_PAGE;
@@ -156,50 +163,27 @@ const updateJobsView = () => {
     node.style.display = '';
   });
 
-  renderPageButtons(paginationState.totalPages, paginationState.currentPage);
-  togglePaginationNav(paginationState.totalPages, paginationState.currentPage);
+  renderPaginationButtons(paginationState.totalPages, paginationState.currentPage);
+  renderPaginationNav(paginationState.totalPages, paginationState.currentPage);
 };
 
 window.updateJobsView = updateJobsView;
 
 pagesContainer?.addEventListener('click', (event) => {
   const target = event.target;
-
-  if (!(target instanceof HTMLElement)) {
-    return;
-  }
-
   const button = target.closest('.pagination-page');
-
-  if (!button) {
-    return;
-  }
-
   const page = Number(button.dataset.page);
-
-  if (!page || page === paginationState.currentPage) {
-    return;
-  }
 
   paginationState.currentPage = page;
   updateJobsView();
 });
 
 prevButton?.addEventListener('click', () => {
-
-  if (paginationState.currentPage <= 1) {
-    return;
-  }
-
   paginationState.currentPage -= 1;
   updateJobsView();
 });
 
 nextButton?.addEventListener('click', () => {
-  if (paginationState.currentPage >= paginationState.totalPages) {
-    return;
-  }
-
   paginationState.currentPage += 1;
   updateJobsView();
 });
