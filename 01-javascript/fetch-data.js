@@ -188,17 +188,18 @@ nextButton?.addEventListener('click', () => {
   updateJobsView();
 });
 
-fetch('./data.json')
-  .then((response) => response.json())
-  .then((jobs) => {
-    const locations = new Map();
-    const experiences = new Map();
-    const technologies = new Map();
-    const jobItems = [];
+try {
+  const response = await fetch('./data.json');
+  const jobs = await response.json();
 
-    jobs.forEach((job) => {
-      const jobItem = renderJobArticle(job);
-      jobItems.push(jobItem);
+  const locations = new Map();
+  const experiences = new Map();
+  const technologies = new Map();
+  const jobItems = [];
+
+  jobs.forEach((job) => {
+    const jobItem = renderJobArticle(job);
+    jobItems.push(jobItem);
 
       if (!locations.has(job.data.modalidad)) {
         locations.set(job.data.modalidad, job.ubicacion);
@@ -222,4 +223,6 @@ fetch('./data.json')
     renderFilter(Array.from(technologies.entries()), 'Tecnología', '#filter-technology');
 
     updateJobsView();
-  });
+} catch (error) {
+  console.error('Error fetching jobs data:', error);
+}
