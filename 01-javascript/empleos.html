@@ -25,10 +25,18 @@
             
             <nav class="primary-nav" aria-label="Primary">
                 <ul>
-                <a href="./index.html">Inicio</a>
-                <a href="./empleos.html">Empleos</a>
-                <a href="#">Empresas</a>
-                <a href="#">Salarios</a>
+                    <li>
+                        <a href="./index.html">Inicio</a>
+                    </li>
+                    <li>
+                        <a href="./empleos.html">Empleos</a>
+                    </li>
+                    <li>
+                        <a href="#">Empresas</a>
+                    </li>
+                    <li>
+                        <a href="#">Salarios</a>
+                    </li>
                 </ul>
             </nav>
             
@@ -43,36 +51,40 @@
             <section class="hero">
                 <h1>Encuentra tu próximo trabajo</h1>
                 <p class="subtitle">Explora miles de oportunidades en el sector tecnológico.</p>
-                <form class="search-bar" autocomplete="off">
-                    <label class="search-icon" for="search-input">
-                        <svg 
-                            xmlns="http://www.w3.org/2000/svg" 
-                            width="24" 
-                            height="24" 
-                            fill="none" 
-                            stroke="currentColor" 
-                            stroke-width="1" 
-                            stroke-linecap="round" 
-                            stroke-linejoin="round" 
-                            class="icon icon-tabler icons-tabler-outline icon-tabler-search">
-                            <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                            <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
-                            <path d="M21 21l-6 -6" />
-                        </svg>
-                    </label>
-                    <input 
-                        type="text" 
-                        class="search-input" 
-                        id="search-input"
-                        placeholder="Buscar trabajos, empresas o habilidades"
-                    />         
-                </form>
+                <form autocomplete="off">
+                    <div class="search-bar">
+                        <div class="search-icon">
+                            <svg 
+                                xmlns="http://www.w3.org/2000/svg" 
+                                width="24" 
+                                height="24" 
+                                fill="none" 
+                                aria-hidden="true" 
+                                stroke="currentColor" 
+                                stroke-width="1" 
+                                stroke-linecap="round" 
+                                stroke-linejoin="round" 
+                                class="icon icon-tabler icons-tabler-outline icon-tabler-search">
+                                <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                                <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
+                                <path d="M21 21l-6 -6" />
+                            </svg>
+                        </div>
+                        <input 
+                            type="text" 
+                            class="search-input" 
+                            id="search-input"
+                            name="search"
+                            placeholder="Buscar trabajos, empresas o habilidades"
+                            aria-label="Buscar empleos"
+                        />         
+                    </div>
 
-                <div class="filters-row">
-                    <label class="filter-select">
+                    <div class="filters-row">
+                        <label for="filter-technology" class="filter-select visually-hidden">Filtrar por tecnología</label>
                         <div class="filter-select-box">
-                            <select id="filter-job">
-                                <option value="">Tipología</option>
+                            <select id="filter-job" id="filter-technology">
+                                <option value="" selected>Todas las Tipologías</option>
                                 <option value="frontend">Frontend</option>
                                 <option value="backend">Backend</option>
                                 <option value="devops">DevOps</option>
@@ -81,11 +93,11 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
                             </span>
                         </div>
-                    </label>
-                    <label class="filter-select">
+
+                        <label for="filter-location" class="filter-select visually-hidden">Filtrar por ubicación</label>
                         <div class="filter-select-box">
                             <select id="filter-location">
-                                <option value="">Ubicación</option>
+                                <option value="" selected>Todas las Ubicaciones</option>
                                 <option value="remoto">Remoto</option>
                                 <option value="ciudad-de-mexico">Ciudad de México</option>
                                 <option value="otras">Otras</option>
@@ -94,76 +106,84 @@
                                 <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
                             </span>
                         </div>
-                    </label>
-                    <label class="filter-select">
+
+                        <label for="filter-contract" class="filter-select visually-hidden">Filtrar por tipo de contrato</label>
                         <div class="filter-select-box">
                             <select id="filter-contract">
-                                <option value="">Tipo de contrato</option>
+                                <option value="" selected>Todos los Tipos de contrato</option>
                                 <option value="full-time">Full Time</option>
                                 <option value="part-time">Part Time</option>
                                 <option value="freelance">Freelance</option>
                             </select>
-                            <span class="select-arrow">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
-                            </span>
-                        </div>
-                    </label>
-                    <label class="filter-select">
+                                <span class="select-arrow">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                                </span>
+                            </div>
+                        </label>
+                        
+                        <label for="filter-experience" class="filter-select visually-hidden">Filtrar por nivel de experiencia</label>
                         <div class="filter-select-box">
                             <select id="filter-experience">
-                                <option value="">Nivel de experiencia</option>
-                                <option value="junior">Junior</option>
-                                <option value="mid">Mid</option>
-                                <option value="senior">Senior</option>
-                            </select>
-                            <span class="select-arrow">
-                                <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
-                            </span>
-                        </div>
-                    </label>
-                </div>
+                                <option value="" selected>Todos los Niveles de experiencia</option>
+                                    <option value="junior">Junior</option>
+                                    <option value="mid">Mid</option>
+                                    <option value="senior">Senior</option>
+                                </select>
+                                <span class="select-arrow">
+                                    <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><polyline points="6,9 12,15 18,9"/></svg>
+                                </span>
+                            </div>
+                        </label>
+                    </div>
+                </form>
             </section>
-            <h2 class="results-title">Resultados de búsqueda</h2>
 
             <section class="jobs-list">
-                <article class="job-listing" data-job="backend" data-location="remoto" data-contract="part-time" data-experience="junior">
-                <div class="job-info">
-                    <div class="job-title">
-                        <a href="detalle.html">Ingeniero de Software</a>
-                    </div>
-                    <div class="company-location">Tech Solutions Inc. | Remoto</div>
-                    <div class="job-desc">Buscamos un ingeniero de software con experiencia en desarrollo web y conocimientos en JavaScript, React y Node.js. El candidato ideal debe ser capaz de trabajar en equipo y tener buenas habilidades de comunicación.</div>
-                </div>
-                <button class="apply-btn">Aplicar</button>
-                </article>
-                
-                <article class="job-listing" data-job="frontend" data-location="ciudad-de-mexico" data-contract="full-time" data-experience="mid">
-                <div class="job-info">
-                    <div class="job-title">Analista de Datos</div>
-                    <div class="company-location">Data Driven Co. | Ciudad de México</div>
-                    <div class="job-desc">Estamos buscando un analista de datos con experiencia en el manejo de grandes conjuntos de datos y herramientas de visualización. Se requiere conocimiento en SQL, Python y R.</div>
-                </div>
-                <button class="apply-btn">Aplicar</button>
-                </article>
-                
-                <article class="job-listing" data-job="mobile" data-location="guadalajara" data-contract="full-time" data-experience="senior">
-                <div class="job-info">
-                    <div class="job-title">Desarrollador de Aplicaciones Móviles</div>
-                    <div class="company-location">Mobile Apps Ltd. | Guadalajara</div>
-                    <div class="job-desc">Buscamos un desarrollador de aplicaciones móviles con experiencia en iOS y/o Android. El candidato debe tener conocimientos en Swift, Kotlin y el desarrollo de interfaces de usuario.</div>
-                </div>
-                <button class="apply-btn">Aplicar</button>
-                </article>
-                
-                <article class="job-listing" data-job="devops" data-location="remoto" data-contract="full-time" data-experience="senior">
-                <div class="job-info">
-                    <div class="job-title">Ingeniero de DevOps</div>
-                    <div class="company-location">Cloud Services SA | Remoto</div>
-                    <div class="job-desc">Estamos buscando un ingeniero de DevOps con experiencia en la gestión de infraestructuras en la nube, automatización de procesos y herramientas de integración continua. Se requiere conocimiento en AWS, Azure o GCP.</div>
-                </div>
-                <button class="apply-btn">Aplicar</button>
-                </article>
-
+                <h2 class="results-title">Resultados de búsqueda</h2>
+                <ul class="job-list-results">
+                    <li>
+                        <article class="job-listing" data-job="backend" data-location="remoto" data-contract="part-time" data-experience="junior">
+                            <div class="job-info">
+                                <h3 class="job-title">
+                                    <a href="detalle.html">Ingeniero de Software</a>
+                                </h3>
+                                <small class="company-location">Tech Solutions Inc. | Remoto</small>
+                                <p class="job-desc">Buscamos un ingeniero de software con experiencia en desarrollo web y conocimientos en JavaScript, React y Node.js. El candidato ideal debe ser capaz de trabajar en equipo y tener buenas habilidades de comunicación.</p>
+                            </div>
+                            <button class="apply-btn">Aplicar</button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="job-listing" data-job="frontend" data-location="ciudad-de-mexico" data-contract="full-time" data-experience="mid">
+                            <div class="job-info">
+                                <h3 class="job-title">Analista de Datos</h3>
+                                <small class="company-location">Data Driven Co. | Ciudad de México</small>
+                                <p class="job-desc">Estamos buscando un analista de datos con experiencia en el manejo de grandes conjuntos de datos y herramientas de visualización. Se requiere conocimiento en SQL, Python y R.</p>
+                            </div>
+                            <button class="apply-btn">Aplicar</button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="job-listing" data-job="mobile" data-location="guadalajara" data-contract="full-time" data-experience="senior">
+                            <div class="job-info">
+                                <h3 class="job-title">Desarrollador de Aplicaciones Móviles</h3>
+                                <small class="company-location">Mobile Apps Ltd. | Guadalajara</small>
+                                <p class="job-desc">Buscamos un desarrollador de aplicaciones móviles con experiencia en iOS y/o Android. El candidato debe tener conocimientos en Swift, Kotlin y el desarrollo de interfaces de usuario.</p>
+                            </div>
+                            <button class="apply-btn">Aplicar</button>
+                        </article>
+                    </li>
+                    <li>
+                        <article class="job-listing" data-job="devops" data-location="remoto" data-contract="full-time" data-experience="senior">
+                            <div class="job-info">
+                                <h3 class="job-title">Ingeniero de DevOps</h3>
+                                <small class="company-location">Cloud Services SA | Remoto</small>
+                                <p class="job-desc">Estamos buscando un ingeniero de DevOps con experiencia en la gestión de infraestructuras en la nube, automatización de procesos y herramientas de integración continua. Se requiere conocimiento en AWS, Azure o GCP.</p>
+                            </div>
+                            <button class="apply-btn">Aplicar</button>
+                        </article>
+                    </li>
+                </ul>
                 <p class="jobs-empty" hidden>
                     No hay trabajos disponibles con estas condiciones
                 </p>

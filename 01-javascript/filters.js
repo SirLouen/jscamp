@@ -38,17 +38,3 @@ filterJob.addEventListener('change', filterJobs);
 filterLocation.addEventListener('change', filterJobs);
 filterContract.addEventListener('change', filterJobs);
 filterExperience.addEventListener('change', filterJobs);
-
-const filterSelect = document.querySelectorAll('.filter-select');
-
-filterSelect.forEach(function(filter) {
-    filter.addEventListener('click', function(event) {
-        const element = event.target;
-        if (
-            'showPicker' in HTMLSelectElement.prototype && 
-            element.tagName === 'SELECT'
-        ) {
-            element.showPicker();
-          }
-    });
-});
