@@ -3,6 +3,7 @@ import { Footer } from './components/Footer.jsx'
 
 import { HomePage } from './pages/Home.jsx'
 import { SearchPage } from './pages/Search.jsx'
+import { Contact } from './pages/Contact.jsx'
 import { Route } from './components/Route.jsx'
 
 function App() {
@@ -11,6 +12,7 @@ function App() {
       <Header />
       <Route path="/" component={HomePage} />
       <Route path="/search" component={SearchPage} />
+      <Route path="/contact" component={Contact} />
       <Footer />
     </>
   )

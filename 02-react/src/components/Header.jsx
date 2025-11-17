@@ -15,6 +15,7 @@ export function Header () {
       </Link>
 
       <nav>
+        <Link href="/contact">Contact</Link>
         <Link href="/search">Empleos</Link>
 
         <a href='/search'>Sin SPA</a>

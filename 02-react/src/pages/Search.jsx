@@ -54,17 +54,17 @@ const useFilters = () => {
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE)
 
   const handlePageChange = (page) => {
-    setCurrentPage(page)
+    setCurrentPage(() => page)
   }
 
   const handleSearch = (filters) => {
     setFilters(filters)
-    setCurrentPage(1)
+    setCurrentPage(() => 1)
   }
 
   const handleTextFilter = (newTextToFilter) => {
     setTextToFilter(newTextToFilter)
-    setCurrentPage(1)
+    setCurrentPage(() => 1)
   }
 
   return {

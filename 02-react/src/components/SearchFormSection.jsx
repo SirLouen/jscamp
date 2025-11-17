@@ -1,4 +1,5 @@
 import { useId, useState } from "react"
+import styles from "./SearchFormSection.module.css"
 
 
 let timeoutId = null
@@ -24,6 +25,14 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, on
     onSearch(filters)
   }
 
+  const handleFocus = (event) => {
+    event.target.classList.add(styles.isFocused)
+  }
+  
+  const handleBlur = (event) => {
+    event.target.classList.remove(styles.isFocused)
+  }
+
   const handleTextChange = (event) => {
     const text = event.target.value
     setSearchText(text) // actualizamos el input inmediatamente
@@ -41,7 +50,9 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, on
   return {
     searchText,
     handleSubmit,
-    handleTextChange
+    handleTextChange,
+    handleFocus,
+    handleBlur
   }
 }
 
@@ -53,7 +64,9 @@ export function SearchFormSection ({ onTextFilter, onSearch }) {
 
   const {
     handleSubmit,
-    handleTextChange
+    handleTextChange,
+    handleFocus,
+    handleBlur
   } = useSearchForm({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter })
 
   return (
@@ -61,7 +74,7 @@ export function SearchFormSection ({ onTextFilter, onSearch }) {
       <h1>Encuentra tu próximo trabajo</h1>
       <p>Explora miles de oportunidades en el sector tecnológico.</p>
 
-      <form onChange={handleSubmit} id="empleos-search-form" role="search">
+      <form className={styles.searchForm} onChange={handleSubmit} id="empleos-search-form" role="search">
         <div className="search-bar">
           <svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none"
             stroke="currentColor" strokeWidth="1" strokeLinecap="round" strokeLinejoin="round"
@@ -73,9 +86,12 @@ export function SearchFormSection ({ onTextFilter, onSearch }) {
 
           
           <input
-            name={idText} id="empleos-search-input" type="text"
+            name={idText} id="empleos-search-input"
+            type="text" className={styles.searchInput}
             placeholder="Buscar trabajos, empresas o habilidades"
             onChange={handleTextChange}
+            onFocus={handleFocus}
+            onBlur={handleBlur}
           />
         </div>
 
