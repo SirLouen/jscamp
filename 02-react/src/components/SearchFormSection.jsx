@@ -46,17 +46,27 @@ const useSearchForm = ({ idTechnology, idLocation, idExperienceLevel, idText, on
       onTextFilter(text)
     }, 500)
   }
+  
+  const clearFilters = () => {
+    onSearch({
+      technology: '',
+      location: '',
+      experienceLevel: ''
+    })
+    setSearchText('')
+  }
 
   return {
     searchText,
     handleSubmit,
     handleTextChange,
     handleFocus,
-    handleBlur
+    handleBlur,
+    clearFilters
   }
 }
 
-export function SearchFormSection ({ onTextFilter, onSearch }) {
+export function SearchFormSection ({ onTextFilter, onSearch, hasFilters }) {
   const idText = useId()
   const idTechnology = useId()
   const idLocation = useId()
@@ -66,7 +76,8 @@ export function SearchFormSection ({ onTextFilter, onSearch }) {
     handleSubmit,
     handleTextChange,
     handleFocus,
-    handleBlur
+    handleBlur,
+    clearFilters
   } = useSearchForm({ idTechnology, idLocation, idExperienceLevel, idText, onSearch, onTextFilter })
 
   return (
@@ -130,6 +141,8 @@ export function SearchFormSection ({ onTextFilter, onSearch }) {
             <option value="senior">Senior</option>
             <option value="lead">Lead</option>
           </select>
+
+          {hasFilters && <button onClick={clearFilters}>Limpiar Filtros</button>}
         </div>
       </form>
 

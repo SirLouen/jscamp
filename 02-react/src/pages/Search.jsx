@@ -3,6 +3,7 @@ import { useEffect, useState } from 'react'
 import { Pagination } from '../components/Pagination.jsx'
 import { SearchFormSection } from '../components/SearchFormSection.jsx'
 import { JobListings } from '../components/JobListings.jsx'
+import { LoadingSpinner } from '../components/LoadingSpinner.jsx'
 
 const RESULTS_PER_PAGE = 4
 
@@ -18,6 +19,8 @@ const useFilters = () => {
   const [jobs, setJobs] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
+
+  const hasActiveFilters = textToFilter || filters.technology || filters.location || filters.experienceLevel
 
   useEffect(() => {
     async function fetchJobs() {
@@ -75,7 +78,8 @@ const useFilters = () => {
     currentPage,
     handlePageChange,
     handleSearch,
-    handleTextFilter
+    handleTextFilter,
+    hasActiveFilters
   }
 }
 
@@ -88,7 +92,8 @@ export function SearchPage() {
     currentPage,
     handlePageChange,
     handleSearch,
-    handleTextFilter
+    handleTextFilter,
+    hasActiveFilters
   } = useFilters()
 
   const title = loading
@@ -100,13 +105,13 @@ export function SearchPage() {
       <title>{title}</title>
       <meta name="description" content="Explora miles de oportunidades laborales en el sector tecnológico. Encuentra tu próximo empleo en DevJobs." />
 
-      <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} />
+      <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} hasFilters={hasActiveFilters} />
 
       <section>
         <h2 style={{ textAlign: 'center' }}>Resultados de búsqueda</h2>
 
         {
-          loading ? <p>Cargando empleos...</p> : <JobListings jobs={jobs} />
+          loading ? <LoadingSpinner /> : <JobListings jobs={jobs} />
         }
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </section>

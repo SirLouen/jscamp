@@ -34,6 +34,7 @@ export function Pagination ({ currentPage = 1, totalPages = 10, onPageChange }) 
   }
 
   return (
+    totalPages <= 1 ? null :
     <nav className={styles.pagination}>
       
       <a href="#" style={stylePrevButton} onClick={handlePrevClick}>
