@@ -6,15 +6,26 @@ import { JobListings } from '../components/JobListings.jsx'
 import { LoadingSpinner } from '../components/LoadingSpinner.jsx'
 
 const RESULTS_PER_PAGE = 4
+const STORAGE_KEY = 'devjobs-search-state'
+
+const defaultFilters = () => ({
+  technology: '',
+  location: '',
+  experienceLevel: ''
+})
+
+const getSearchState = () => { 
+    const stored = window.localStorage.getItem(STORAGE_KEY)
+    return stored ? JSON.parse(stored) : null
+}
+const saveSearchState = (state) => {
+    window.localStorage.setItem(STORAGE_KEY, JSON.stringify(state))
+}
 
 const useFilters = () => {
-  const [filters, setFilters] = useState({
-      technology: '',
-      location: '',
-      experienceLevel: ''
-    })
-  const [textToFilter, setTextToFilter] = useState('')
-  const [currentPage, setCurrentPage] = useState(1)
+  const [filters, setFilters] = useState(() => getSearchState()?.filters ?? defaultFilters())
+  const [textToFilter, setTextToFilter] = useState(() => getSearchState()?.textToFilter ?? '')
+  const [currentPage, setCurrentPage] = useState(() => getSearchState()?.currentPage ?? 1)
 
   const [jobs, setJobs] = useState([])
   const [total, setTotal] = useState(0)
@@ -54,6 +65,10 @@ const useFilters = () => {
     fetchJobs()
   }, [filters, textToFilter, currentPage])
 
+  useEffect(() => {
+    saveSearchState({ filters, textToFilter, currentPage })
+  }, [filters, textToFilter, currentPage])
+
   const totalPages = Math.ceil(total / RESULTS_PER_PAGE)
 
   const handlePageChange = (page) => {
@@ -66,7 +81,7 @@ const useFilters = () => {
   }
 
   const handleTextFilter = (newTextToFilter) => {
-    setTextToFilter(newTextToFilter)
+    setTextToFilter(() => newTextToFilter)
     setCurrentPage(() => 1)
   }
 
@@ -74,12 +89,14 @@ const useFilters = () => {
     loading,
     jobs,
     total,
+    filters,
+    textToFilter,
     totalPages,
     currentPage,
     handlePageChange,
     handleSearch,
     handleTextFilter,
-    hasActiveFilters
+    hasActiveFilters,
   }
 }
 
@@ -89,11 +106,13 @@ export function SearchPage() {
     total,
     loading,
     totalPages,
+    filters,
+    textToFilter,
     currentPage,
     handlePageChange,
     handleSearch,
     handleTextFilter,
-    hasActiveFilters
+    hasActiveFilters,
   } = useFilters()
 
   const title = loading
@@ -105,7 +124,7 @@ export function SearchPage() {
       <title>{title}</title>
       <meta name="description" content="Explora miles de oportunidades laborales en el sector tecnológico. Encuentra tu próximo empleo en DevJobs." />
 
-      <SearchFormSection onSearch={handleSearch} onTextFilter={handleTextFilter} hasFilters={hasActiveFilters} />
+      <SearchFormSection onSelectFilter={handleSearch} onTextFilter={handleTextFilter} hasFilters={hasActiveFilters} filters={filters} textToFilter={textToFilter} />
 
       <section>
         <h2 style={{ textAlign: 'center' }}>Resultados de búsqueda</h2>
