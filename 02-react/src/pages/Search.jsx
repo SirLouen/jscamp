@@ -4,6 +4,7 @@ import { Pagination } from '../components/Pagination.jsx'
 import { SearchFormSection } from '../components/SearchFormSection.jsx'
 import { JobListings } from '../components/JobListings.jsx'
 import { LoadingSpinner } from '../components/LoadingSpinner.jsx'
+import { NotOnlineError } from '../components/NotOnlineError.jsx'
 
 const RESULTS_PER_PAGE = 4
 const STORAGE_KEY = 'devjobs-search-state'
@@ -30,6 +31,7 @@ const useFilters = () => {
   const [jobs, setJobs] = useState([])
   const [total, setTotal] = useState(0)
   const [loading, setLoading] = useState(true)
+  const [error, setError] = useState(null)
 
   const hasActiveFilters = textToFilter || filters.technology || filters.location || filters.experienceLevel
 
@@ -37,6 +39,7 @@ const useFilters = () => {
     async function fetchJobs() {
       try {
         setLoading(true)
+        setError(null)
 
         const params = new URLSearchParams()
         if (textToFilter) params.append('text', textToFilter)
@@ -50,13 +53,28 @@ const useFilters = () => {
 
         const queryParams = params.toString()
       
+        // const response = await fetch(`https://mock.httpstatus.io/404`)
         const response = await fetch(`https://jscamp-api.vercel.app/api/jobs?${queryParams}`)
+
+        if (!response.ok) {
+          console.log(response);
+          throw new Error(`El servidor respondió con un error ${response.status}.`)
+        }
+
         const json = await response.json()
 
         setJobs(json.data)
         setTotal(json.total)
       } catch (error) {
-        console.error('Error fetching jobs:', error)
+        const fallbackMessage = 'No pudimos cargar los trabajos. Revisa tu conexión e inténtalo de nuevo.'
+        const isOnline = typeof navigator !== 'undefined' ? navigator.onLine : true
+        const finalErrorMessage = !isOnline
+          ? 'No hay conexión a internet. Intenta otra vez.'
+          : error?.message || fallbackMessage
+
+        setError('Error: ' + finalErrorMessage)
+        setJobs([])
+        setTotal(0)
       } finally {
         setLoading(false)
       }
@@ -85,10 +103,18 @@ const useFilters = () => {
     setCurrentPage(() => 1)
   }
 
+  const handleRetry = () => {
+    setFilters(getSearchState()?.filters ?? defaultFilters())
+    setTextToFilter(getSearchState()?.textToFilter ?? '')
+    setCurrentPage(getSearchState()?.currentPage ?? 1)
+    setError(null)
+  }
+
   return {
     loading,
     jobs,
     total,
+    error,
     filters,
     textToFilter,
     totalPages,
@@ -96,6 +122,7 @@ const useFilters = () => {
     handlePageChange,
     handleSearch,
     handleTextFilter,
+    handleRetry,
     hasActiveFilters,
   }
 }
@@ -105,6 +132,7 @@ export function SearchPage() {
     jobs,
     total,
     loading,
+    error,
     totalPages,
     filters,
     textToFilter,
@@ -112,6 +140,7 @@ export function SearchPage() {
     handlePageChange,
     handleSearch,
     handleTextFilter,
+    handleRetry,
     hasActiveFilters,
   } = useFilters()
 
@@ -130,7 +159,9 @@ export function SearchPage() {
         <h2 style={{ textAlign: 'center' }}>Resultados de búsqueda</h2>
 
         {
-          loading ? <LoadingSpinner /> : <JobListings jobs={jobs} />
+          loading ? <LoadingSpinner /> : error ? (
+            <NotOnlineError message={error} onRetry={handleRetry} />
+          ) : <JobListings jobs={jobs} />
         }
         <Pagination currentPage={currentPage} totalPages={totalPages} onPageChange={handlePageChange} />
       </section>
